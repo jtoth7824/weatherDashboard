@@ -1,7 +1,7 @@
 var apiKey = "7d311af3c577d21467ebbbc1fb698e7b";
-var weatherMap = "http://api.openweathermap.org/data/2.5/forecast?q=";
+var weatherMap = "https://api.openweathermap.org/data/2.5/forecast?q=";
 
-var currentWeather = "http://api.openweathermap.org/data/2.5/weather?q=";
+var currentWeather = "https://api.openweathermap.org/data/2.5/weather?q=";
 var currentWeatherURL = currentWeather + city + "&units=imperial&appid=" + apiKey;
 
 /* grab current day using day js to display at top of planner */
