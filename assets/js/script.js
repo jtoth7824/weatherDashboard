@@ -5,7 +5,8 @@ var currentWeather = "https://api.openweathermap.org/data/2.5/weather?q=";
 var currentWeatherURL = currentWeather + city + "&units=imperial&appid=" + apiKey;
 
 var cities = [];
-var city;
+var city = JSON.parse(localStorage.getItem("SavedCity"));
+var searchCity = "";
 
 /* grab current day using day js to display at top of planner */
 var now = dayjs().format('M/DD/YYYY');
@@ -22,6 +23,8 @@ var cityLon;
 function john() {
     /* build url for weather api call utilzing the city chosen */
     var url = weatherMap + city + "&units=imperial&appid=" + apiKey;
+    console.log("city in john = " + city);
+    console.log(url);
     /* make ajax call to retrieve weather object for user selected city */
     $.ajax({
         type: "GET",
@@ -117,13 +120,45 @@ $("#add-city").on("click", function (event) {
 
     // This line will grab the text from the input box
     city = $("#city-input").val().trim();
+    searchCity = city;
+    saveCity();
     // The city from the input box is then added to our array
     cities.push(city);
 
     // calling renderButtons which handles the processing of our city array
+    $("#weather").removeClass("hidden");
     renderButtons();
     john();
 });
 
 // Calling the renderButtons function at least once to display the initial list of cities
-renderButtons();
+//renderButtons();
+
+function saveCity() {
+    /* save city to local storage after changing object to String */
+    localStorage.setItem("SavedCity", JSON.stringify(city));
+}
+
+function init() {
+    // Get stored city from localStorage
+    // Parsing the JSON string to an object
+//    var savedCity = (localStorage.getItem("SavedCity"));
+
+//    console.log("savedCity = " + savedCity);
+    // If city was not retrieved from localStorage, save current city to storage
+    if (city === null) {
+//        alert("Select a city to display weather info");
+        $("#weather").addClass("hidden");
+    }
+    else {
+//        city = (localStorage.getItem("SavedCity"));
+        console.log("city after get" + city);
+        $("#weather").removeClass("hidden");
+        renderButtons();
+        john();
+    }
+//    renderButtons();
+//    john();
+}
+
+init();
