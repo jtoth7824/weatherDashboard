@@ -8,9 +8,6 @@ var cityLon;
 /* grab current day using day js to display at top of planner */
 var now = dayjs().format('M/DD/YYYY');
 
-/* set listeners on each list item */
-$(document).on("click", ".list-group-item", getCityBtn);
-
 /* display 5 day forecast dates utilzing day js api */
 for (var j = 0; j < 5; j++) {
     var cardTitle = $(".Day" + (j + 1));
@@ -121,10 +118,12 @@ function getCityBtn() {
     var whichBtn = $(this); 
     /* save text retrieved from clicked button as the city */
     city = whichBtn.text();
-    console.log(city);
     /* save city to local storage */
     saveCity();
+    displayWeatherInfo();
 }
+/* set listeners on each list item */
+$(document).on("click", ".list-group-item", getCityBtn);
 
 /* function to capitalize first letter of each word in city name */
 function capitalize() {
@@ -151,19 +150,36 @@ function capitalize() {
 
 // This function handles events where search button is clicked
 $("#add-city").on("click", function (event) {
+    var found = false;
     // event.preventDefault() prevents the form from trying to submit itself.
     // Using a form so that the user can hit enter instead of clicking the button if they want
     event.preventDefault();
-
     // This line will grab the text from the input box
     city = $("#city-input").val().trim();
+    /* check that user actually entered a city */
+    if(city === "") {
+        alert("Need to enter city to display weather info");
+    }
+    else {
     // capitalize first character of each word in string for consistency
     capitalize();
 
     // save city name to local storage
     saveCity();
     // The city from the input box is then added to our array
-    cities.push(city);
+
+    for(var i=0; i<cities.length; i++) {
+        /* check if city is already in search history list */
+        if(city === cities[i]) {
+            found = true;
+        }
+    }
+    /* if city was not on search history then add to city array */
+    if(!found){
+        cities.push(city);
+    }
+    /* clear out search input box so user doesn't have to delete old city name */
+    $("#city-input").val("");
 
     // now that valid city name is present, display the weather html elements on page
     $("#weather").removeClass("hidden");
@@ -171,6 +187,8 @@ $("#add-city").on("click", function (event) {
     displaySearchHistory();
     // call function to display weather information for city selected 
     displayWeatherInfo();
+    }
+
 });
 
 /* function to save city name to local storage */
