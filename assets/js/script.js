@@ -1,15 +1,15 @@
 var apiKey = "7d311af3c577d21467ebbbc1fb698e7b";
 var weatherMap = "https://api.openweathermap.org/data/2.5/forecast?q=";
-
-var currentWeather = "https://api.openweathermap.org/data/2.5/weather?q=";
-var currentWeatherURL = currentWeather + city + "&units=imperial&appid=" + apiKey;
-
 var cities = [];
 var city = JSON.parse(localStorage.getItem("SavedCity"));
-var searchCity = "";
+var cityLat;
+var cityLon;
 
 /* grab current day using day js to display at top of planner */
 var now = dayjs().format('M/DD/YYYY');
+
+/* set listeners on each list item */
+$(document).on("click", ".list-group-item", getCityBtn);
 
 /* display 5 day forecast dates utilzing day js api */
 for (var j = 0; j < 5; j++) {
@@ -17,14 +17,9 @@ for (var j = 0; j < 5; j++) {
     $(cardTitle).text(dayjs().add(j + 1, 'day').format('M/DD/YYYY'));
 }
 
-var cityLat;
-var cityLon;
-
-function john() {
+function displayWeatherInfo() {
     /* build url for weather api call utilzing the city chosen */
     var url = weatherMap + city + "&units=imperial&appid=" + apiKey;
-    console.log("city in john = " + city);
-    console.log(url);
     /* make ajax call to retrieve weather object for user selected city */
     $.ajax({
         type: "GET",
@@ -57,6 +52,15 @@ function john() {
                     $(".humidity").text("Humidity: " + response.current.humidity + "%");
                     $(".windSpeed").text("Wind Speed: " + response.current.wind_speed.toFixed(1) + "MPH");
                     $(".uvi").text(response.current.uvi);
+                    if(response.current.uvi <= 2) {
+                        $(".uvi").attr("class", "uvi btn-success");
+                    }
+                    else if(response.current.uvi <=5) {
+                        $(".uvi").attr("class", "uvi btn-warning");
+                    }
+                    else {
+                        $(".uvi").attr("class", "uvi btn-danger");
+                    }
                     var icon = response.current.weather[0].icon;
                     var imgEl = $("<img>");
                     $(imgEl).attr("src", "https://openweathermap.org/img/w/" + icon + ".png");
@@ -84,81 +88,113 @@ function john() {
     });
 }
 
-// Function for displaying movie data
-function renderButtons() {
+/* function to display user city search history to screen */
+function displaySearchHistory() {
 
-    // empty weather icon images
-    $("#cities-view").empty();
-    $(".mainCity").empty();
-    $(".img1").empty();
-    $(".img2").empty();
-    $(".img3").empty();
-    $(".img4").empty();
-    $(".img5").empty();
+    var historyEl = $(".search-history");
+    var listGroupEl = $("<div>");
 
-    // Looping through the array of cities
-    for (var i = 0; i < cities.length; i++) {
+    /* create list group element */
+    $(listGroupEl).addClass("list-group");
+    $(listGroupEl).attr("id", "johnList");
 
-        // Then dynamicaly generating buttons for each city in the array.
-        var a = $("<button>");
-        // Adding a class
-        a.addClass("city");
-        // Adding a data-attribute with a value of the city at index i
-        a.attr("data-name", cities[i]);
-        // Providing the button's text with a value of the city at index i
-        a.text(cities[i]);
-        // Adding the button to the HTML
-        $("#cities-view").append(a);
+    /* clear search history list items before adding new list item cities */
+    $(historyEl).empty();
+    /* loop over all cities in array */
+    for(var k=0; k<cities.length; k++) {
+        var divEl = $("<a>");
+        /* add attributes and classes to <a> element */
+        $(divEl).attr("href", "#");
+        $(divEl).addClass("list-group-item list-group-item-action");
+        /* set name of city to button <a> tag */
+        $(divEl).text(cities[k]);
+        /* append <a> tag to list group */
+        $(listGroupEl).append(divEl);
+    }
+    /* append list group to search history <div> */
+    $(historyEl).append(listGroupEl);
+}
+
+/* get city name from associated button click */
+function getCityBtn() {
+
+    var whichBtn = $(this); 
+    /* save text retrieved from clicked button as the city */
+    city = whichBtn.text();
+    console.log(city);
+    /* save city to local storage */
+    saveCity();
+}
+
+/* function to capitalize first letter of each word in city name */
+function capitalize() {
+
+    var splitCity;
+    /* split city name into array elements based upon space character */
+    splitCity = city.split(" ");
+    /* check if only 1 array element */
+    if(splitCity.length === 1) {
+        /* convert first character to uppercase and rest of characters to lowercase */
+        city = city.substring(0,1).toUpperCase() + city.substring(1).toLowerCase();
+
+    }
+    else{
+        /* loop over all split city array elements */
+        for(var k=0; k< splitCity.length; k++) {
+            /* convert first character to uppercase and rest of characters to lowercase */
+            splitCity[k] = splitCity[k].substring(0,1).toUpperCase() + splitCity[k].substring(1);
+        }
+        /* once all characters converted - join all array elements back to one string variable */
+        city = splitCity.join(" ");
     }
 }
 
-// This function handles events where one button is clicked
+// This function handles events where search button is clicked
 $("#add-city").on("click", function (event) {
     // event.preventDefault() prevents the form from trying to submit itself.
-    // We're using a form so that the user can hit enter instead of clicking the button if they want
+    // Using a form so that the user can hit enter instead of clicking the button if they want
     event.preventDefault();
 
     // This line will grab the text from the input box
     city = $("#city-input").val().trim();
-    searchCity = city;
+    // capitalize first character of each word in string for consistency
+    capitalize();
+
+    // save city name to local storage
     saveCity();
     // The city from the input box is then added to our array
     cities.push(city);
 
-    // calling renderButtons which handles the processing of our city array
+    // now that valid city name is present, display the weather html elements on page
     $("#weather").removeClass("hidden");
-    renderButtons();
-    john();
+    // call function to display all cities in array as search history buttons
+    displaySearchHistory();
+    // call function to display weather information for city selected 
+    displayWeatherInfo();
 });
 
-// Calling the renderButtons function at least once to display the initial list of cities
-//renderButtons();
-
+/* function to save city name to local storage */
 function saveCity() {
     /* save city to local storage after changing object to String */
     localStorage.setItem("SavedCity", JSON.stringify(city));
 }
 
+// function to check if city was retrieved from storage and if not hide the weather HTML elements
+//  if city was retrieved from storage then display weather HTML elements, display search history and weather info
 function init() {
-    // Get stored city from localStorage
-    // Parsing the JSON string to an object
-//    var savedCity = (localStorage.getItem("SavedCity"));
 
-//    console.log("savedCity = " + savedCity);
-    // If city was not retrieved from localStorage, save current city to storage
+    // If city was not retrieved from localStorage, hide weather HTML elements until valid city is selected by user
     if (city === null) {
-//        alert("Select a city to display weather info");
         $("#weather").addClass("hidden");
     }
     else {
-//        city = (localStorage.getItem("SavedCity"));
-        console.log("city after get" + city);
+        // if city retrieved from storage, then display weather HTML elements
         $("#weather").removeClass("hidden");
-        renderButtons();
-        john();
+        // call function to display search history information 
+        displaySearchHistory();
+        // call function to display the weather information
+        displayWeatherInfo();
     }
-//    renderButtons();
-//    john();
 }
 
 init();
