@@ -8,7 +8,7 @@ This project demonstrates utilizing third party API calls to retrieve weather da
 
 Local storage was used to keep track of last searched upon city and have that city weather available upon browser refresh or launching the application.  While the application is open, any user search for a city is subsquently added to a search history list.  This permits the user to click a previously searched city to retrieve the weather about that city as opposed to having to search on it again.
 
-The framework of the application was built in HTML for each of the sections: search history, search input & button, current weather information and 5 day forecast information.  The information for each of those sections was dynamically added via jQuery.  
+The framework of the application was built in HTML for each of the sections: search history, search input & button, current weather information and 5 day forecast information.  The information for each of those sections was dynamically added via jQuery.  The weather dashboard application is also mobile responsive.
 
 Additionally, the ultraviolet index (UVI) is color coded based upon how severe the retrieved number is for the UVI.  Another feature added to this application was making sure city name capitalization was consistent no matter how the user entered the city name.  The first letter of each word of city name is now capitalized.  
 
@@ -30,11 +30,6 @@ The following is a screenshot of the weather application following a user search
 The following is a screenshot of the weather application showing a different color code for the UVI.
 <p align="center">
   <img src="./assets/images/CityUVI.png" alt="UVI screenshot">
-</p>
-
-The following is a screenshot of the weather application .
-<p align="center">
-  <img src="./assets/images/ViewHighScoreList.png" alt="Javascript Quiz high score list screenshot">
 </p>
 
 ## Setup/Installation Requirements

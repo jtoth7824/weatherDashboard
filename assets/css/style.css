@@ -32,9 +32,6 @@
     border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
 }
 
-body {
-}
-
 .pWeather {
     display: block;
     margin-block-start: 0px;
@@ -95,8 +92,4 @@ button {
   border-radius: 0 .3rem .3rem 0;
   background-color: #007bff;
   outline: 0;
-}
-
-.try {
-    padding-left: 0px;
 }
