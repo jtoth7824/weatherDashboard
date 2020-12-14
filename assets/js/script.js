@@ -5,8 +5,6 @@ var city = JSON.parse(localStorage.getItem("SavedCity"));
 var cityLat;
 var cityLon;
 
-console.log(city);
-
 /* grab current day using day js to display at top of planner */
 var now = dayjs().format('M/DD/YYYY');
 
@@ -14,6 +12,30 @@ var now = dayjs().format('M/DD/YYYY');
 for (var j = 0; j < 5; j++) {
     var cardTitle = $(".Day" + (j + 1));
     $(cardTitle).text(dayjs().add(j + 1, 'day').format('M/DD/YYYY'));
+}
+
+/* function to convert wind degrees to a direction for display */
+function windDirection(windDeg) {
+    if (windDeg >= 0 && windDeg < 22) {
+        windDir = "N";
+    } else if (windDeg >= 22 && windDeg < 67) {
+        windDir = "NNE";
+    } else if (windDeg >= 67 && windDeg < 112) {
+        windDir = "E";
+    } else if (windDeg >= 112 && windDeg < 157) {
+        windDir = "SSE";
+    } else if (windDeg >= 157 && windDeg < 202) {
+        windDir = "S";
+    } else if (windDeg >= 202 && windDeg < 247) {
+        windDir = "SSW";
+    } else if (windDeg >= 247 && windDeg < 292) {
+        windDir = "W";
+    } else if (windDeg > 292 && windDeg < 337) {
+        windDir = "NNW";
+    } else if (windDeg >= 337 && windDeg < 360) {
+        windDir = "N";
+    }
+    return windDir;
 }
 
 function displayWeatherInfo() {
@@ -47,17 +69,18 @@ function displayWeatherInfo() {
                 url: oneCallURL,
                 success: function (response) {
                     /* update current weather info on html page */
+                    console.log(response);
                     $(".temp").text("Temperature: " + response.current.temp.toFixed(1) + "\u00B0F");
                     $(".humidity").text("Humidity: " + response.current.humidity + "%");
-                    $(".windSpeed").text("Wind Speed: " + response.current.wind_speed.toFixed(1) + "MPH");
+                    var windDeg = response.current.wind_deg;
+                    var windDir = windDirection(windDeg);
+                    $(".windSpeed").text("Wind Speed: " + response.current.wind_speed.toFixed(1) + "MPH  " + windDir);
                     $(".uvi").text(response.current.uvi);
-                    if(response.current.uvi <= 2) {
+                    if (response.current.uvi <= 2) {
                         $(".uvi").attr("class", "uvi btn-success");
-                    }
-                    else if(response.current.uvi <=5) {
+                    } else if (response.current.uvi <= 5) {
                         $(".uvi").attr("class", "uvi btn-warning");
-                    }
-                    else {
+                    } else {
                         $(".uvi").attr("class", "uvi btn-danger");
                     }
                     var icon = response.current.weather[0].icon;
@@ -74,7 +97,7 @@ function displayWeatherInfo() {
                         icon = response.daily[i].weather[0].icon;
                         /* utilize weather icon code to set src of image */
                         $(imgEl).attr("src", "https://openweathermap.org/img/w/" + icon + ".png");
-                        $(".img" + (i+1)).addClass("img-responsive");
+                        $(".img" + (i + 1)).addClass("img-responsive");
                         /* add weather icon image to page for each day of forecast */
                         $(".img" + (i + 1)).append(imgEl);
                         $(".img" + (i + 1)).addClass("pWeather");
@@ -104,7 +127,7 @@ function displaySearchHistory() {
     /* clear search history list items before adding new list item cities */
     $(historyEl).empty();
     /* loop over all cities in array */
-    for(var k=0; k<cities.length; k++) {
+    for (var k = 0; k < cities.length; k++) {
         var divEl = $("<a>");
         /* add attributes and classes to <a> element */
         $(divEl).attr("href", "#");
@@ -121,7 +144,7 @@ function displaySearchHistory() {
 /* get city name from associated button click */
 function getCityBtn() {
 
-    var whichBtn = $(this); 
+    var whichBtn = $(this);
     /* save text retrieved from clicked button as the city */
     city = whichBtn.text();
     /* save city to local storage */
@@ -138,16 +161,15 @@ function capitalize() {
     /* split city name into array elements based upon space character */
     splitCity = city.split(" ");
     /* check if only 1 array element */
-    if(splitCity.length === 1) {
+    if (splitCity.length === 1) {
         /* convert first character to uppercase and rest of characters to lowercase */
-        city = city.substring(0,1).toUpperCase() + city.substring(1).toLowerCase();
+        city = city.substring(0, 1).toUpperCase() + city.substring(1).toLowerCase();
 
-    }
-    else{
+    } else {
         /* loop over all split city array elements */
-        for(var k=0; k< splitCity.length; k++) {
+        for (var k = 0; k < splitCity.length; k++) {
             /* convert first character to uppercase and rest of characters to lowercase */
-            splitCity[k] = splitCity[k].substring(0,1).toUpperCase() + splitCity[k].substring(1);
+            splitCity[k] = splitCity[k].substring(0, 1).toUpperCase() + splitCity[k].substring(1);
         }
         /* once all characters converted - join all array elements back to one string variable */
         city = splitCity.join(" ");
@@ -163,36 +185,35 @@ $("#add-city").on("click", function (event) {
     // This line will grab the text from the input box
     city = $("#city-input").val().trim();
     /* check that user actually entered a city */
-    if(city === "") {
+    if (city === "") {
         alert("Need to enter city to display weather info");
-    }
-    else {
-    // capitalize first character of each word in string for consistency
-    capitalize();
+    } else {
+        // capitalize first character of each word in string for consistency
+        capitalize();
 
-    // save city name to local storage
-    saveCity();
-    // The city from the input box is then added to our array
+        // save city name to local storage
+        saveCity();
+        // The city from the input box is then added to our array
 
-    for(var i=0; i<cities.length; i++) {
-        /* check if city is already in search history list */
-        if(city === cities[i]) {
-            found = true;
+        for (var i = 0; i < cities.length; i++) {
+            /* check if city is already in search history list */
+            if (city === cities[i]) {
+                found = true;
+            }
         }
-    }
-    /* if city was not on search history then add to city array */
-    if(!found){
-        cities.push(city);
-    }
-    /* clear out search input box so user doesn't have to delete old city name */
-    $("#city-input").val("");
+        /* if city was not on search history then add to city array */
+        if (!found) {
+            cities.push(city);
+        }
+        /* clear out search input box so user doesn't have to delete old city name */
+        $("#city-input").val("");
 
-    // now that valid city name is present, display the weather html elements on page
-    $("#weather").removeClass("hidden");
-    // call function to display all cities in array as search history buttons
-    displaySearchHistory();
-    // call function to display weather information for city selected 
-    displayWeatherInfo();
+        // now that valid city name is present, display the weather html elements on page
+        $("#weather").removeClass("hidden");
+        // call function to display all cities in array as search history buttons
+        displaySearchHistory();
+        // call function to display weather information for city selected 
+        displayWeatherInfo();
     }
 
 });
@@ -210,8 +231,7 @@ function init() {
     // If city was not retrieved from localStorage, hide weather HTML elements until valid city is selected by user
     if (city === null) {
         $("#weather").addClass("hidden");
-    }
-    else {
+    } else {
         // if city retrieved from storage, then display weather HTML elements
         $("#weather").removeClass("hidden");
         // call function to display search history information 

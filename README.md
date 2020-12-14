@@ -12,8 +12,7 @@ The framework of the application was built in HTML for each of the sections: sea
 
 Additionally, the ultraviolet index (UVI) is color coded based upon how severe the retrieved number is for the UVI.  Another feature added to this application was making sure city name capitalization was consistent no matter how the user entered the city name.  The first letter of each word of city name is now capitalized.  
 
-Code was added to prevent a user searched city from being added to the search history more than once.   If a user searches for a city already on the list, the weather is retrieved for that city but the search history is not updated.
-
+Code was added to prevent a user searched city from being added to the search history more than once.   If a user searches for a city already on the list, the weather is retrieved for that city but the search history is not updated.  Application is also displaying the wind degrees as a direction for current weather only (not the 5 day forecast): N, NNE, E, SSE, S, SSW, W, NNW.
 
 ## Screenshots
 

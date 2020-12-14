@@ -12,33 +12,28 @@
 </head>
 
 <body>
-    <!-- As a heading -->
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <span class="mx-auto h1 mb-0 text-color">Weather Dashboard</span>
         </div>
     </nav>
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 col-xs12">
-                <!-- <nav class="navbar navbar-light bg-light"> -->
                 <h5 class="text-left">Search for a city:</h5>
-                <form class="form-inline city-form">
+                <form class="form-inline city-form marginBottomCol">
                     <input class="form-control" id="city-input" autocomplete="off" type="search" placeholder="Search"
                         aria-label="Search">
-                    <!-- <button class="btn btn-outline-success my-2 my-sm-0" id="add-city" type="submit">Search</button> -->
                     <button class="btn btn-outline-primary" id="add-city" type="submit"><i
                             class="fa fa-search img-fluid image-responsive"></i></button>
                 </form>
-                <!-- </nav> -->
                 <div class="search-history searchHistoryMargin">
                 </div>
             </div>
             <div class="col-md col-xs">
                 <div id="weather">
                     <div class="row">
-                        <div class="card col-md col-xs">
+                        <div class="card col-md col-xs marginBottomCol">
                             <div class="card-body">
                                 <h1 class="card-title mainCity"></h1>
                                 <p class="card-text temp"></p>
