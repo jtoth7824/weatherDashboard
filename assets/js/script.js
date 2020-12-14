@@ -5,6 +5,8 @@ var city = JSON.parse(localStorage.getItem("SavedCity"));
 var cityLat;
 var cityLon;
 
+console.log(city);
+
 /* grab current day using day js to display at top of planner */
 var now = dayjs().format('M/DD/YYYY');
 
@@ -45,7 +47,7 @@ function displayWeatherInfo() {
                 url: oneCallURL,
                 success: function (response) {
                     /* update current weather info on html page */
-                    $(".temp").text("Temp: " + response.current.temp.toFixed(1));
+                    $(".temp").text("Temperature: " + response.current.temp.toFixed(1) + "\u00B0F");
                     $(".humidity").text("Humidity: " + response.current.humidity + "%");
                     $(".windSpeed").text("Wind Speed: " + response.current.wind_speed.toFixed(1) + "MPH");
                     $(".uvi").text(response.current.uvi);
@@ -72,12 +74,16 @@ function displayWeatherInfo() {
                         icon = response.daily[i].weather[0].icon;
                         /* utilize weather icon code to set src of image */
                         $(imgEl).attr("src", "https://openweathermap.org/img/w/" + icon + ".png");
+                        $(".img" + (i+1)).addClass("img-responsive");
                         /* add weather icon image to page for each day of forecast */
                         $(".img" + (i + 1)).append(imgEl);
+                        $(".img" + (i + 1)).addClass("pWeather");
                         /* add temperature to correct field on each day of forecast */
-                        $(".temp" + (i + 1)).text("Temp: " + response.daily[i].temp.day.toFixed(1));
+                        $(".temp" + (i + 1)).text("Temp: " + response.daily[i].temp.day.toFixed(1) + "\u00B0F");
+                        $(".temp" + (i + 1)).addClass("pWeather");
                         /* add humidity to correct field on each day of forecast */
                         $(".humidity" + (i + 1)).text("Humidity: " + response.daily[i].humidity + "%");
+                        $(".humidity" + (i + 1)).addClass("pWeather");
                     }
                 }
             });

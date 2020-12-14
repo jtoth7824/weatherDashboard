@@ -9,3 +9,93 @@
 .hidden {
     display: none;
 }
+
+.h1Margin {
+    margin-left: 15px;
+}
+
+.cityMargin {
+    margin-top: 5px;
+}
+
+.searchHistoryMargin {
+    margin-top: 10px;
+}
+
+/* styling to keep column items separated */
+.marginBottomCol {
+    margin-bottom: 10px;
+}
+
+.uviBtn {
+    border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+}
+
+body {
+}
+
+.pWeather {
+    display: block;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+button {
+    font-weight: 400;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem .3rem .3rem .3rem;
+    background-color: #007bff;
+    outline: 0;
+
+/* following styling for search icon used from https://stackoverflow.com/questions/19945281 */
+* {box-sizing: border-box;}
+
+.form-group {
+  display: -webkit-flex;
+  -webkit-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+input {
+  flex: 1 1 auto;
+  font-weight: 400;
+  height: calc(1.5em + 1rem + 2px);
+  padding: .5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: .3rem 0 0 .3rem;
+  outline: 0;
+}
+
+button {
+  font-weight: 400;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  border: 1px solid transparent;  
+  padding: .5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0 .3rem .3rem 0;
+  background-color: #007bff;
+  outline: 0;
+}
+
+.try {
+    padding-left: 0px;
+}
