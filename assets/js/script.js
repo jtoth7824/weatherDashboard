@@ -169,7 +169,7 @@ function capitalize() {
         /* loop over all split city array elements */
         for (var k = 0; k < splitCity.length; k++) {
             /* convert first character to uppercase and rest of characters to lowercase */
-            splitCity[k] = splitCity[k].substring(0, 1).toUpperCase() + splitCity[k].substring(1);
+            splitCity[k] = splitCity[k].substring(0, 1).toUpperCase() + splitCity[k].substring(1).toLowerCase();
         }
         /* once all characters converted - join all array elements back to one string variable */
         city = splitCity.join(" ");
