@@ -4,20 +4,38 @@
 
 .text-color {
     color: white;
+    font-family: 'Shrikhand', cursive;
 }
 
+/* nav bar background color at top of page */
+.navbarColor {
+    color: white;
+    font-family: 'Shrikhand', cursive;
+}
+
+.weatherText {
+    font-family: 'Shrikhand', cursive;
+}
+
+/* used to toggle current and forecast weather visible or not */
 .hidden {
     display: none;
 }
 
+/* styling to line up left edge */
 .h1Margin {
     margin-left: 15px;
 }
 
+/* separate city items when stacked vertically */
 .cityMargin {
     margin-top: 5px;
 }
 
+.searchMargin {
+    margin-top: 5px;
+}
+/* separate weather info from search history */
 .searchHistoryMargin {
     margin-top: 10px;
     margin-bottom: 5px;
@@ -28,10 +46,12 @@
     margin-bottom: 10px;
 }
 
+/* styling to round all corners of button */
 .uviBtn {
     border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
 }
 
+/* styling for paragraph tag with weather info */
 .pWeather {
     display: block;
     margin-block-start: 0px;
@@ -40,56 +60,44 @@
     margin-inline-end: 0px;
 }
 
-button {
-    font-weight: 400;
-    color: #ffffff;
-    cursor: pointer;
-    text-align: center;
-    user-select: none;
-    border: 1px solid transparent;
-    padding: .5rem 1rem;
-    font-size: 1.25rem;
-    line-height: 1.5;
-    border-radius: .3rem .3rem .3rem .3rem;
-    background-color: #007bff;
-    outline: 0;
-
 /* following styling for search icon used from https://stackoverflow.com/questions/19945281 */
-* {box-sizing: border-box;}
+    * {
+        box-sizing: border-box;
+    }
 
-.form-group {
-  display: -webkit-flex;
-  -webkit-flex-wrap: wrap;
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
+    .form-group {
+        display: -webkit-flex;
+        -webkit-flex-wrap: wrap;
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
 
-input {
-  flex: 1 1 auto;
-  font-weight: 400;
-  height: calc(1.5em + 1rem + 2px);
-  padding: .5rem 1rem;
-  font-size: 1.25rem;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  border-radius: .3rem 0 0 .3rem;
-  outline: 0;
-}
+    input {
+        flex: 1 1 auto;
+        font-weight: 400;
+        height: calc(1.5em + 1rem + 2px);
+        padding: .5rem 1rem;
+        font-size: 1.25rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: .3rem 0 0 .3rem;
+        outline: 0;
+    }
 
-button {
-  font-weight: 400;
-  color: #ffffff;
-  cursor: pointer;
-  text-align: center;
-  user-select: none;
-  border: 1px solid transparent;  
-  padding: .5rem 1rem;
-  font-size: 1.25rem;
-  line-height: 1.5;
-  border-radius: 0 .3rem .3rem 0;
-  background-color: #007bff;
-  outline: 0;
-}
+    button {
+        font-weight: 400;
+        color: #ffffff;
+        cursor: pointer;
+        text-align: center;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: .5rem 1rem;
+        font-size: 1.25rem;
+        line-height: 1.5;
+        border-radius: 0 .3rem .3rem 0;
+        background-color: #007bff;
+        outline: 0;
+    }

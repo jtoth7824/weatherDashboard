@@ -4,6 +4,7 @@ var cities = [];
 var city = JSON.parse(localStorage.getItem("SavedCity"));
 var cityLat;
 var cityLon;
+var windDir;
 
 /* grab current day using day js to display at top of planner */
 var now = dayjs().format('M/DD/YYYY');
@@ -39,8 +40,9 @@ function windDirection(windDeg) {
 }
 
 function displayWeatherInfo() {
+    var url;
     /* build url for weather api call utilzing the city chosen */
-    var url = weatherMap + city + "&units=imperial&appid=" + apiKey;
+    url = weatherMap + city + "&units=imperial&appid=" + apiKey;
     /* make ajax call to retrieve weather object for user selected city */
     $.ajax({
         type: "GET",
@@ -73,21 +75,21 @@ function displayWeatherInfo() {
                     $(".temp").text("Temperature: " + response.current.temp.toFixed(1) + "\u00B0F");
                     $(".humidity").text("Humidity: " + response.current.humidity + "%");
                     var windDeg = response.current.wind_deg;
-                    var windDir = windDirection(windDeg);
+                    windDir = windDirection(windDeg);
                     $(".windSpeed").text("Wind Speed: " + response.current.wind_speed.toFixed(1) + "MPH  " + windDir);
                     $(".uvi").text(response.current.uvi);
                     if (response.current.uvi <= 2) {
-                        $(".uvi").attr("class", "uvi btn-success");
+                        $(".uvi").attr("class", "uvi uviBtn btn-success");
                     } else if (response.current.uvi <= 5) {
-                        $(".uvi").attr("class", "uvi btn-warning");
+                        $(".uvi").attr("class", "uvi uviBtn btn-warning");
                     } else {
-                        $(".uvi").attr("class", "uvi btn-danger");
+                        $(".uvi").attr("class", "uvi uviBtn btn-danger");
                     }
                     var icon = response.current.weather[0].icon;
-                    var imgEl = $("<img>");
-                    $(imgEl).attr("src", "https://openweathermap.org/img/w/" + icon + ".png");
+                    var imgcurEl = $("<img>");
+                    $(imgcurEl).attr("src", "https://openweathermap.org/img/w/" + icon + ".png");
                     /* display current weather icon image on html page */
-                    $(".mainCity").append(imgEl);
+                    $(".mainCity").append(imgcurEl);
 
                     /* loop through 5 day forecast and add weather info to page */
                     for (var i = 0; i < 5; i++) {
@@ -131,7 +133,7 @@ function displaySearchHistory() {
         var divEl = $("<a>");
         /* add attributes and classes to <a> element */
         $(divEl).attr("href", "#");
-        $(divEl).addClass("list-group-item list-group-item-action");
+        $(divEl).addClass("list-group-item list-group-item-action weatherText");
         /* set name of city to button <a> tag */
         $(divEl).text(cities[k]);
         /* append <a> tag to list group */
